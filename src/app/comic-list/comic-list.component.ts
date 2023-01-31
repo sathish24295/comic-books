@@ -110,11 +110,11 @@ export class ComicListComponent implements OnInit, AfterViewInit, OnDestroy {
     this.dataSource.sortingDataAccessor = (item: any, property) => {
       switch (property) {
         case 'ID':
-          return item.id;
+          return parseInt(item.id);
         case 'Name':
           return item.name?.toLowerCase();
         case 'Publication Date':
-          return item.publicationdate?.toLowerCase();
+          return new Date(item.publicationdate);
         case 'Genre':
           return item.genre?.toLowerCase();
         case 'Written By':
