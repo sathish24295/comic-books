@@ -51,7 +51,14 @@ export const comicBookListReducer = createReducer(
   }),
   on(deleteComicBook, (state, { id }) => {
     const oldComic = [...state.comicList];
-    const remComic = oldComic.filter((data) => data.id !== id);
+    const remComic = oldComic
+      .filter((data) => data.id !== id)
+      .map((data, index) => {
+        const newdata = { ...data };
+        newdata.id = (index + 1).toString();
+        return newdata;
+      });
+
     return {
       ...state,
       comicList: [...remComic],
