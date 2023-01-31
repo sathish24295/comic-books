@@ -16,25 +16,22 @@ export interface ComicBookListState {
   comicList: ComicBookListElement[];
   editedId: string;
   editedComic: ComicBookListElement;
-  totalCount: number;
 }
 
 export const initialState: ComicBookListState = {
   comicList: ELEMENT_DATA,
   editedId: '-1',
   editedComic: {},
-  totalCount: ELEMENT_DATA.length,
 };
 
 export const comicBookListReducer = createReducer(
   initialState,
   on(addComicBook, (state, { comic }) => {
-    const currentCount = state.totalCount + 1;
+    const currentCount = state.comicList.length + 1;
     const newComic = { ...comic, id: currentCount?.toString() };
     return {
       ...state,
       comicList: [...state.comicList, newComic],
-      totalCount: currentCount,
     };
   }),
   on(editComicBook, (state, { comic }) => {
