@@ -110,10 +110,7 @@ export class AddComicComponent implements OnInit, OnDestroy {
   }
 
   validateRequired(field: string) {
-    return (
-      this.comicForm.get(field)?.touched &&
-      this.comicForm.get(field)?.hasError('required')
-    );
+    return this.comicForm.get(field)?.hasError('required');
   }
 
   validateMinLength(field: string) {
