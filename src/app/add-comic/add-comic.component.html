@@ -1,0 +1,142 @@
+<mat-toolbar color="primary">
+  <mat-toolbar-row>
+    <span>{{ title }}</span>
+  </mat-toolbar-row>
+</mat-toolbar>
+
+<div class="formDiv">
+  <form [formGroup]="comicForm" (ngSubmit)="submitComicForm()">
+    <div class="form-group">
+      <div>
+        <mat-form-field appearance="outline" class="form-control">
+          <mat-label>Name</mat-label>
+          <input
+            matInput
+            required
+            placeholder="Name"
+            formControlName="name"
+            maxlength="255"
+          />
+          <mat-error *ngIf="validateRequired('name')">
+            Name is required
+          </mat-error>
+          <mat-error *ngIf="validateMinLength('name')">
+            Name should contain with minimum 2 characters
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div>
+        <mat-form-field appearance="outline" class="form-control">
+          <mat-label>Written By</mat-label>
+          <mat-select
+            required
+            placeholder="-- Please Select --"
+            formControlName="writtenby"
+            multiple
+          >
+            <mat-option *ngFor="let author of authorsList" [value]="author">{{
+              author
+            }}</mat-option>
+          </mat-select>
+
+          <mat-error *ngIf="validateRequired('writtenby')">
+            Written By is required
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div>
+        <mat-form-field appearance="outline" class="form-control">
+          <mat-label>Genre</mat-label>
+          <input matInput placeholder="Genre" formControlName="genre" />
+        </mat-form-field>
+      </div>
+      <div>
+        <mat-form-field appearance="outline" class="form-control">
+          <mat-label>Publication Date</mat-label>
+          <input
+            matInput
+            required
+            formControlName="publicationdate"
+            [matDatepicker]="picker"
+            placeholder="Choose a date"
+          />
+          <mat-datepicker-toggle
+            matSuffix
+            [for]="picker"
+          ></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+          <mat-error *ngIf="validateRequired('publicationdate')">
+            Publication Date is required
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div>
+        <mat-form-field appearance="outline" class="form-control">
+          <mat-label>Publisher</mat-label>
+          <mat-select
+            formControlName="publisher"
+            placeholder="-- Please Select --"
+          >
+            <mat-option
+              *ngFor="let publisher of publishers"
+              [value]="publisher.value"
+            >
+              {{ publisher.label }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div>
+        <mat-form-field appearance="outline" class="form-control">
+          <mat-label>Cover Image URL</mat-label>
+          <input
+            matInput
+            required
+            placeholder="coverimageurl"
+            formControlName="coverimageurl"
+          />
+          <mat-error *ngIf="validateRequired('coverimageurl'); else elseBlock">
+            Cover Image URL is required
+          </mat-error>
+          <ng-template #elseBlock>
+            <mat-error *ngIf="validateIfInvalid('coverimageurl')">
+              URL is invalid, please make sure the protocol is secured &
+              extensions are either .jpg or .png
+            </mat-error>
+          </ng-template>
+        </mat-form-field>
+      </div>
+      <div>
+        <mat-form-field appearance="outline" class="form-control">
+          <mat-label>Excerpt</mat-label>
+          <textarea
+            matInput
+            placeholder="Excerpt"
+            formControlName="excerpt"
+            class="excerpt-textarea"
+          ></textarea>
+        </mat-form-field>
+      </div>
+    </div>
+    <div style="justify-content: space-between">
+      <button
+        type="submit"
+        mat-button
+        mat-raised-button
+        color="primary"
+        class="saveBtn place-cursor"
+      >
+        Save
+      </button>
+      <button
+        mat-button
+        mat-raised-button
+        color="warn"
+        class="place-cursor"
+        (click)="loadComicList()"
+      >
+        Cancel
+      </button>
+    </div>
+  </form>
+</div>

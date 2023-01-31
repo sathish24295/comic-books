@@ -1,0 +1,20 @@
+.page-section {
+  text-align: center;
+}
+
+mat-card-header,
+mat-card-actions {
+  margin: auto;
+}
+
+mat-divider {
+  border: 0;
+  border-top: 4px dotted gray;
+  width: 3em;
+  margin: auto;
+  margin-bottom: 1em;
+}
+
+.mat-mdc-card {
+  box-shadow: none;
+}

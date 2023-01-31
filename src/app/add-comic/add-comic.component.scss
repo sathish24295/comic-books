@@ -1,0 +1,22 @@
+.formDiv {
+  text-align: center;
+  margin-top: 1rem;
+  padding-top: 1rem;
+  .form-group {
+    display: grid;
+    grid-template-columns: 24em 20em;
+    justify-content: center;
+  }
+  .form-control {
+    width: 20rem;
+  }
+  .excerpt-textarea {
+    max-height: 5rem;
+  }
+  .place-cursor {
+    cursor: pointer;
+  }
+  button {
+    margin: 0 1rem 1rem 0;
+  }
+}

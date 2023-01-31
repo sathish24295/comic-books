@@ -1,0 +1,178 @@
+<mat-toolbar color="primary">
+  <mat-toolbar-row>
+    <span>{{ title }}</span>
+  </mat-toolbar-row>
+</mat-toolbar>
+
+<div>
+  <div class="add-button-element">
+    <button
+      mat-stroked-button
+      class="mat-elevation-z2 place-cursor"
+      color="primary"
+      (click)="addComicBook()"
+    >
+      Add Comic
+    </button>
+  </div>
+  <div>
+    <table
+      mat-table
+      [dataSource]="dataSource"
+      multiTemplateDataRows
+      matSort
+      class="mat-elevation-z8"
+    >
+      <ng-container
+        matColumnDef="{{ column }}"
+        *ngFor="let column of columnsToDisplay"
+      >
+        <ng-container *ngIf="setHeader(column); else elseBlock">
+          <th mat-header-cell mat-sort-header *matHeaderCellDef>
+            {{ setHeader(column) }}
+          </th>
+        </ng-container>
+        <ng-template #elseBlock>
+          <th mat-header-cell *matHeaderCellDef>
+            {{ setHeader(column) }}
+          </th>
+        </ng-template>
+
+        <ng-container [ngSwitch]="column">
+          <ng-container
+            *ngSwitchCase="'edit'"
+            [ngTemplateOutlet]="editTemplate"
+          ></ng-container>
+          <ng-container
+            *ngSwitchCase="'delete'"
+            [ngTemplateOutlet]="deleteTemplate"
+          ></ng-container>
+          <ng-container
+            *ngSwitchCase="'expand'"
+            [ngTemplateOutlet]="expandTemplate"
+          ></ng-container>
+          <ng-container
+            *ngSwitchCase="'Publication Date'"
+            [ngTemplateOutlet]="dateTemplate"
+          ></ng-container>
+          <ng-container
+            *ngSwitchDefault
+            [ngTemplateOutlet]="defaultTemplate"
+          ></ng-container>
+
+          <ng-template #editTemplate>
+            <td mat-cell *matCellDef="let element">
+              <button
+                class="place-cursor"
+                mat-icon-button
+                color="primary"
+                (click)="editComicBook(element.id)"
+              >
+                <mat-icon>edit</mat-icon>
+              </button>
+            </td>
+          </ng-template>
+
+          <ng-template #deleteTemplate>
+            <td mat-cell *matCellDef="let element">
+              <button
+                class="place-cursor"
+                mat-icon-button
+                color="warn"
+                (click)="deleteComicBook(element.id)"
+              >
+                <mat-icon>delete</mat-icon>
+              </button>
+            </td>
+          </ng-template>
+
+          <ng-template #expandTemplate>
+            <td mat-cell *matCellDef="let element">
+              <button
+                class="place-cursor"
+                mat-icon-button
+                aria-label="expand row"
+                (click)="
+                  expandedElement = expandedElement === element ? null : element
+                "
+              >
+                <mat-icon *ngIf="expandedElement !== element"
+                  >keyboard_arrow_down</mat-icon
+                >
+                <mat-icon *ngIf="expandedElement === element"
+                  >keyboard_arrow_up</mat-icon
+                >
+              </button>
+            </td>
+          </ng-template>
+
+          <ng-template #dateTemplate>
+            <td mat-cell *matCellDef="let element">
+              {{ element[column | trim | lowercase] | date }}
+            </td>
+          </ng-template>
+
+          <ng-template #defaultTemplate>
+            <td mat-cell *matCellDef="let element">
+              {{ element[column | trim | lowercase] }}
+            </td>
+          </ng-template>
+        </ng-container>
+      </ng-container>
+
+      <!-- Expanded Content -->
+      <ng-container matColumnDef="expandedDetail">
+        <td
+          mat-cell
+          *matCellDef="let element"
+          [attr.colspan]="columnsToDisplay.length"
+        >
+          <div
+            class="expand-element-detail"
+            [@detailExpand]="
+              element === expandedElement ? 'expanded' : 'collapsed'
+            "
+          >
+            <mat-card class="mat-card-element">
+              <mat-card-header>
+                <mat-card-title-group>
+                  <mat-card-title>{{ element.name }}</mat-card-title>
+                  <mat-card-subtitle>{{ element.writtenby }}</mat-card-subtitle>
+                  <img
+                    mat-card-md-image
+                    [src]="element.coverimageurl"
+                    onerror="this.src = 'assets/comics/no-image.jpg'"
+                    alt="No Image Available"
+                  />
+                </mat-card-title-group>
+              </mat-card-header>
+              <mat-card-content>
+                {{ element.excerpt }}
+              </mat-card-content>
+            </mat-card>
+          </div>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+      <tr
+        mat-row
+        *matRowDef="let element; columns: columnsToDisplay"
+        class="expand-element-row"
+      ></tr>
+      <tr
+        mat-row
+        *matRowDef="let row; columns: ['expandedDetail']"
+        class="expand-detail-row"
+      ></tr>
+    </table>
+  </div>
+  <div>
+    <mat-paginator
+      [pageSizeOptions]="[5, 10, 20]"
+      showFirstLastButtons
+      pageSize="5"
+    >
+    </mat-paginator>
+  </div>
+</div>

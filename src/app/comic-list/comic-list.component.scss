@@ -1,0 +1,31 @@
+.add-button-element {
+  margin: 1rem 1rem 1rem 0;
+  display: flex;
+  justify-content: end;
+}
+
+table {
+  width: 100%;
+  overflow: auto;
+}
+
+tr.expand-detail-row {
+  height: 0;
+}
+
+.expand-element-row td {
+  border-bottom-width: 0;
+}
+
+.expand-element-detail {
+  overflow: hidden;
+  display: flex;
+}
+
+.mat-card-element {
+  width: 100%;
+}
+
+.place-cursor {
+  cursor: pointer;
+}
